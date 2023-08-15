@@ -1,0 +1,87 @@
+[user]
+email = yaniv@bahalker.com
+name = Yaniv Bahalker
+
+[github]
+user = "yanivbah"
+
+[core]
+editor = nvim
+pager =  diff-so-fancy | less --tabs=4 -RFX
+sshCommand = "ssh -i ~/.ssh/yanivbah-github"
+
+[includeIf "gitdir:~/Work/"]
+	path = ~/Work/.gitconfig.work
+
+[url "git@github.com:"]
+    insteadOf = "gh:"
+
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+
+[fetch]
+    # Auto-fetch submodule changes
+    recurseSubmodules = on-demand
+    prune = true
+
+[grep]
+    break = true
+    heading = true
+    lineNumber = true
+    extendedRegexp = true
+
+[commit]
+    verbose = true
+
+[merge]
+    conflictstyle = diff3
+
+[rerere]
+    enabled = true
+
+[pull]
+    ff = only
+    rebase = true
+
+[log]
+    # Use abbrev SHAs whenever possible/relevant instead of full 40 chars
+    abbrevCommit = true
+    # Automatically --follow when given a single path
+    follow = true
+    # Disable decorate for reflog
+    decorate = false
+
+[status]
+    submoduleSummary = true
+    showUntrackedFiles = all
+
+[push]
+    default = current
+
+[interactive]
+    diffFilter = diff-so-fancy --patch
+
+[alias]
+    aliases = "! git config --list | grep alias | sed 's/^alias\\.\\([^=]*\\)=\\(.\\+\\)$/\\x1b[1m[\\1]\\x1b[0m - \\x1b[2m\\2\\x1b[0m/'"
+    orphan = ! git log --pretty=oneline --abbrev-commit --graph --decorate `git reflog | cut -d \" \" -f 1`
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    whoami = !git config --get user.name && git config --get user.email
+    r = "!f() { git diff $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')...HEAD; }; f"
+    rr = "!f() { git diff $(git rev-parse --abbrev-ref HEAD)@{upstream}...HEAD; }; f" # Review Remote
+    undo = "!f() { git reset HEAD~${1-1} --mixed; }; f"
+    fuckit = "!f() { git reset --hard && git clean -fd; }; f"
+    pf = push --force-with-lease
+    a = add
+    b = branch
+    c = commit
+    cm = commit -m
+    co = checkout
+    cob = checkout -b
+    f = fetch
+    l = log
+    ls = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    s = status --short --branch
